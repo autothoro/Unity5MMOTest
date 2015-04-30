@@ -18,7 +18,7 @@ public class TestSlideBar : MonoBehaviour {
 	private const int BUTTON_HEIGHT = 20;
 	
 	private float maxSliderValue = 90.0f;
-	private float sliderValue = 0.0F;
+	private float[] sliderValue = new float[6];
 	private float sliderValueY;
 
 	private ProceduralMaterial substance;
@@ -54,7 +54,7 @@ public class TestSlideBar : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+			
 
 }
 
@@ -66,7 +66,7 @@ public class TestSlideBar : MonoBehaviour {
 		DisplayVitals ();
 		DisplaySkills ();
 		DisplayPointsLeft ();
-	//	DisplaySliderBar ();
+	
 		
 		//if(_toon.Name == "" || pointsLeft > 0)
 		//	DisplayCreateLabel ();
@@ -88,36 +88,53 @@ public class TestSlideBar : MonoBehaviour {
 				           ((AttributeName)cnt).ToString ());// add in creation design
 				
 				
-			GUI.Label (new Rect (STAT_LABEL_WIDTH + OFFSET,												//x
-				                   statStartingPos + (cnt * LINE_HEIGHT),									//y
-				                   BASEVALUE_LABEL_WIDTH,													//width
-				                   LINE_HEIGHT),													//height
+		//	GUI.Label (new Rect (STAT_LABEL_WIDTH + OFFSET,												//x
+		//		                   statStartingPos + (cnt * LINE_HEIGHT),									//y
+		//		                   BASEVALUE_LABEL_WIDTH,													//width
+		//		                   LINE_HEIGHT),													//height
 				          
-				          _toon.GetPrimaryAttribute (cnt).AdjustedBaseValue.ToString ());
+		//		          _toon.GetPrimaryAttribute (cnt).AdjustedBaseValue.ToString ());
 
 		
 				///NEED TO CHANGE THIS TYPEOF AND THE GETVALUE
 
 	
-			sliderValue =  GUI.HorizontalSlider (new Rect(STAT_LABEL_WIDTH + OFFSET + 13,												//x
+			sliderValue[cnt] =  GUI.HorizontalSlider (new Rect(STAT_LABEL_WIDTH + OFFSET * 7,												//x
 			                                             statStartingPos + (cnt * LINE_HEIGHT),									//y
 			                                             BASEVALUE_LABEL_WIDTH * 6,													//width
-			                                             LINE_HEIGHT), sliderValue, 0.0f, 100.0f);
+			                                             LINE_HEIGHT), sliderValue[cnt], 0.0f, 100.0f);
+
+			GUI.Box (new Rect (STAT_LABEL_WIDTH + OFFSET,												//x
+			                   statStartingPos + (cnt * LINE_HEIGHT),									//y
+			                   BASEVALUE_LABEL_WIDTH,													//width
+			                   LINE_HEIGHT), " " + Mathf.Round(sliderValue[cnt]));
+
+	//		Debug.Log("- :" +sliderValue[cnt]);
+
+	//		if (sliderValue[cnt] =  GUI.HorizontalSlider (new Rect(STAT_LABEL_WIDTH + OFFSET + 13,												//x
+	//		                                                   statStartingPos + (cnt * LINE_HEIGHT),									//y
+	//		                                                   BASEVALUE_LABEL_WIDTH * 6,													//width
+	//		                                                   LINE_HEIGHT), sliderValue[cnt], 0.0f, 100.0f)){
+			//
+	//		}
+
+			
 				
-		
-			if(sliderValueY != sliderValue)
-			{
-				 substance.SetProceduralFloat(_toon.GetPrimaryAttribute (cnt).BaseValue.ToString (), sliderValue);
-			}
-			sliderValueY = sliderValue;
+			//sliderValue = "Stuff" + Mathf.RoundToInt(sliderValue).ToString();
 
-			if(sliderValue < pointsLeft)
-			{
-				_toon.GetPrimaryAttribute (cnt).BaseValue.ToString();
-				pointsLeft -- ;
-				_toon.StatUpDate ();
+			//	if(sliderValue != sliderValue[cnt])
+		//	{
+		//		 substance.SetProceduralFloat(_toon.GetPrimaryAttribute (cnt).BaseValue.ToString (), sliderValue[cnt]);
+		//	}
+		//	sliderValueY = sliderValue[cnt];
 
-			}
+		//	if(sliderValue[cnt] < pointsLeft)
+		//	{
+		//		_toon.GetPrimaryAttribute (cnt).BaseValue.ToString();
+		//		pointsLeft -- ;
+		//		_toon.StatUpDate ();
+
+		//	}
 	
 			//sliderValueY = Mathf.RoundToInt(sliderValueY);
 }
