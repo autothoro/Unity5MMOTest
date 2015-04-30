@@ -1,14 +1,18 @@
-﻿//slash tutorial 
+﻿/// <summary>
+///MMO
+///2015
+///Character Main creation screen 
+/// add a push down input to auto add points.
+///  </summary>
 using UnityEngine;
 using System.Collections;
 using System;	
 												//use for the enum class
 public class CharacterGenerator : MonoBehaviour {
-	private PlayerCharacter _toon;
+	public PlayerCharacter _toon;
 	private const int STARTING_POINTS = 290 ;
 	private const int MIN_STARTING_ATTRIBUTE_VALUE = 10;
 	private int pointsLeft;
-
 
 	private const int OFFSET = 5;
 	private const int LINE_HEIGHT = 20;
@@ -19,15 +23,23 @@ public class CharacterGenerator : MonoBehaviour {
 	private const int BUTTON_WIDTH = 20;
 	private const int BUTTON_HEIGHT = 20;
 
+
+
 	private int statStartingPos = 40;
 
-	public GUIStyle myStyle;
-	public GUISkin mySkin;
+	public GUISkin mySkin; //Character creation design page
+
+	public GameObject playerPrefab;
 
 	// Use this for initialization
 	void Start () {
-		_toon = new PlayerCharacter ();
-		_toon.Awake ();
+		GameObject playerChar = Instantiate (playerPrefab,Vector3.zero, Quaternion.identity) as GameObject;
+
+
+		playerChar.name = "playerChar";
+
+
+		_toon = playerChar.GetComponent<PlayerCharacter> ();
 
 		pointsLeft = STARTING_POINTS;
 
@@ -51,10 +63,21 @@ public class CharacterGenerator : MonoBehaviour {
 		DisplayVitals ();
 		DisplaySkills ();
 		DisplayPointsLeft ();
-		}
-		
+
+
+		if(_toon.Name == "" || pointsLeft > 0)
+		DisplayCreateLabel ();
+		else
+		DisplayCreateButton ();//create char
+
+
+
+
+	}
+		/// <summary>
+		/// D//////////////////////////////////////////////////add in a game name above character name DisplayName		/// </summary>
 	private void DisplayName(){
-		GUI.Label (new Rect (10, 10, 50, 25), "Name");
+		GUI.Label (new Rect (OFFSET, 10, 50, 25), "Name");
 		_toon.Name = GUI.TextField (new Rect (65, 10, 100, 25), _toon.Name);
 	}
 
@@ -64,19 +87,22 @@ public class CharacterGenerator : MonoBehaviour {
 			                     statStartingPos + (cnt * LINE_HEIGHT), 								//y
 			                     STAT_LABEL_WIDTH, 														//width
 			                     LINE_HEIGHT), 															//height	
-			           ((AttributeName)cnt).ToString (), myStyle);// add in creation design
+			           ((AttributeName)cnt).ToString ());// add in creation design
+					
 
 			GUI.Label(new Rect(STAT_LABEL_WIDTH + OFFSET,												//x
-			                   statStartingPos + (cnt* LINE_HEIGHT),									//y
-			                   BASEVALUE_LABEL_WIDTH,													//width
-			                   LINE_HEIGHT),															//height
+			                 statStartingPos + (cnt* LINE_HEIGHT),									//y
+			               BASEVALUE_LABEL_WIDTH,													//width
+			             LINE_HEIGHT),															//height
 
 			          _toon.GetPrimaryAttribute(cnt).AdjustedBaseValue.ToString ());
+
+
 			if(GUI.Button(new Rect(OFFSET + STAT_LABEL_WIDTH + BASEVALUE_LABEL_WIDTH, 					//x
 			                       statStartingPos +(cnt * BUTTON_HEIGHT),								//y
 			                       BUTTON_WIDTH, 														//width
 			                       BUTTON_HEIGHT),														//height
-			              "-")){ //add "-", mystyle)){ for making design image on creation screen
+			              "-")){ // mystyle)){ for making design image on creation screen//make a push down input to quickly remove points
 
 				if(_toon.GetPrimaryAttribute(cnt).BaseValue > MIN_STARTING_ATTRIBUTE_VALUE){
 					_toon.GetPrimaryAttribute(cnt).BaseValue--;
@@ -84,22 +110,26 @@ public class CharacterGenerator : MonoBehaviour {
 					_toon.StatUpDate ();
 				}
 			}
-
-			if(GUI.Button(new Rect(OFFSET + STAT_LABEL_WIDTH + BASEVALUE_LABEL_WIDTH + BUTTON_WIDTH,	//x
+		
+				if(GUI.Button(new Rect(OFFSET + STAT_LABEL_WIDTH + BASEVALUE_LABEL_WIDTH + BUTTON_WIDTH,	//x
 			                       statStartingPos + (cnt * BUTTON_HEIGHT),								//y
 			                       BUTTON_WIDTH,														//width
 			                       BUTTON_HEIGHT),														//height	
-			              "+" , myStyle)){ // mystyle)){ for making design image on creation screen
+			              "+")){ // mystyle)){ for making design image on creation screen// make a push down input to quickly add points
 
 				if(pointsLeft > 0){
 					_toon.GetPrimaryAttribute(cnt).BaseValue++;
 					pointsLeft--;
 					_toon.StatUpDate ();
 				}
-			}
-		}
-	}    
 
+			}
+		
+	}    
+}
+
+
+//	}
 	private void DisplayVitals(){
 		for (int cnt = 0; cnt < Enum.GetValues(typeof(VitalName)).Length; cnt++) {
 			GUI.Label (new Rect (OFFSET,																//x
@@ -116,7 +146,7 @@ public class CharacterGenerator : MonoBehaviour {
 			           _toon.GetVital(cnt).AdjustedBaseValue.ToString());
 		}
 	}
-	private void DisplaySkills(){     //add Change to a different screen for skills**********
+	private void DisplaySkills(){     //add Change to a different screen for skills**********Add skill points
 		for (int cnt = 0; cnt < Enum.GetValues(typeof(SkillName)).Length; cnt++) {
 			GUI.Label (new Rect (OFFSET * 4 + STAT_LABEL_WIDTH + BASEVALUE_LABEL_WIDTH + BUTTON_WIDTH * 2,  //x
 			                     statStartingPos + (cnt* LINE_HEIGHT),                                      //y
@@ -132,7 +162,44 @@ public class CharacterGenerator : MonoBehaviour {
 		}
 	}
 
+
+
 	private void DisplayPointsLeft(){
 		GUI.Label (new Rect (250, 10, 100, 25), "Points Left: " + pointsLeft.ToString());
 	}
+	//private void DisplaySkillButton(){   // Need to creat a new script for next button page for skills.
+	//}
+
+	private void DisplayCreateLabel(){
+		GUI.Label (new Rect (Screen.width / 2 - 50,										        //x
+		                         statStartingPos + (10 * LINE_HEIGHT),							//y
+		                         STAT_LABEL_WIDTH + 10,											//width
+		                         LINE_HEIGHT													//height
+		                         ), "Create Character", "Button");
+	}
+	private void DisplayCreateButton(){				//will change this to after skill selection to create character . ////////can change a label to a button/ a button to a label.
+		if(GUI.Button (new Rect (Screen.width / 2 - 50,										//x
+	                        statStartingPos + (10 * LINE_HEIGHT),							//y
+	        	            STAT_LABEL_WIDTH + 10,											//width
+	    	                LINE_HEIGHT														//height
+		                  ), "New Character")){
+		
+		
+		Settings SettingGameScript = GameObject.Find ("__Settings").GetComponent<Settings>(); 
+	
+	//change current value of the vitals to the max mod value of that vital
+
+			UpdateCurrentVitalValues();
+			//save character data
+			SettingGameScript.SaveData();
+
+			Application.LoadLevel("Level1"); //Main Server World // for loadlevel ("slashing"); can also do File/building Settings to find number code
+					}
+			}
+
+	private void UpdateCurrentVitalValues(){
+		for (int cnt = 0; cnt <Enum.GetValues(typeof(VitalName)).Length; cnt++) {
+			_toon.GetVital(cnt).CurValue = _toon.GetVital(cnt).AdjustedBaseValue;
+			}
+		}
 }

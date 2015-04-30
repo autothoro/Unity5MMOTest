@@ -1,8 +1,10 @@
-﻿//slash tutorial 
+///MMo
+///base character skill.
 using UnityEngine;
 using System.Collections;
 using System;					//access the enum class
-
+								//smithing,healing,alchemy,jump,run, arrow making(fletching)
+								//summon creature,destruction magic, protection magic/healing magic/skills buff(creature magic)
 
 public class BaseCharacter : MonoBehaviour {
 	private string _name;
@@ -18,6 +20,7 @@ public class BaseCharacter : MonoBehaviour {
 		_name = string.Empty;
 		_level = 0;
 		_freeExp = 0;
+
 
 		_primaryAttribute = new Attribute[Enum.GetValues(typeof(AttributeName )).Length];
 		_vital = new Vital[Enum.GetValues(typeof(VitalName)).Length];
@@ -60,6 +63,7 @@ public class BaseCharacter : MonoBehaviour {
 	{
 		for (int cnt= 0; cnt < _primaryAttribute.Length; cnt++) {
 			_primaryAttribute [cnt] = new Attribute ();
+			_primaryAttribute [cnt].Name = ((AttributeName)cnt).ToString ();
 		}
 	}
 
@@ -101,25 +105,66 @@ public class BaseCharacter : MonoBehaviour {
 
 	}
 
-	private void SetupSkillModifier(){
+	private void SetupSkillModifier(){ //add in much more skills
 		//Melee Offence   would like to add in more melee types
-		GetSkill ((int)SkillName.Melee_UA).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Strength), .33f));
-		GetSkill ((int)SkillName.Melee_UA).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Coordination), .33f));
+		GetSkill ((int)SkillName.UnArm).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Strength), .7f));
+		GetSkill ((int)SkillName.UnArm).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Coordination), .7f));
+		//Melee Sword
+		GetSkill ((int)SkillName.Sword).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Strength), .3f));
+		GetSkill ((int)SkillName.Sword).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Coordination), .3f));
+		//Melee Axe
+		GetSkill ((int)SkillName.Axe).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Coordination), .3f));
+		GetSkill ((int)SkillName.Axe).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Coordination), .3f));
+		//Melee Staff
+		GetSkill ((int)SkillName.Staff).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Coordination), .5f));
+		GetSkill ((int)SkillName.Staff).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Coordination), .5f));
+
+
+		GetSkill ((int)SkillName.Smithing).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Strength), .4f));
+		GetSkill ((int)SkillName.Smithing).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Focus), .4f));
+
+		GetSkill ((int)SkillName.Alchemy).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Coordination), .4f));
+		GetSkill ((int)SkillName.Alchemy).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Focus), .4f));
+
+		GetSkill ((int)SkillName.Jump).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Strength), .8f));
+		GetSkill ((int)SkillName.Jump).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Coordination), .2f));
+
+		GetSkill ((int)SkillName.Run).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Quickness), .4f));
+
+		GetSkill ((int)SkillName.Fletching).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Coordination), .4f));
+		GetSkill ((int)SkillName.Fletching).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Focus), .4f));
+
+		GetSkill ((int)SkillName.Healing).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Strength), .6f));
+		GetSkill ((int)SkillName.Healing).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Focus), .6f));
+
 		//Melee Defence
-		GetSkill ((int)SkillName.Melee_Defence).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Quickness), .33f));
-		GetSkill ((int)SkillName.Melee_Defence).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Endurance), .33f));
+		GetSkill ((int)SkillName.Melee_Defence).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Quickness), .10f));
+		GetSkill ((int)SkillName.Melee_Defence).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Endurance), .10f));
+		//ADD IN MAGIC SPELLS, DESTRUCTION, PROTECTION, HEALDING, BUFFS!!!MORE
+
+
 		//Magic Offence
-		GetSkill ((int)SkillName.Magic_Offence).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Focus), .33f));
-		GetSkill ((int)SkillName.Magic_Offence).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Self), .33f));
+		GetSkill ((int)SkillName.Destruction_Magic).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Focus), .8f));
+		GetSkill ((int)SkillName.Destruction_Magic).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Self), .8f));
 		//Magic Defence     woud like to add in different spell classes
-		GetSkill ((int)SkillName.Magic_Defence).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Focus), .33f));
-		GetSkill ((int)SkillName.Magic_Defence).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Focus), .33f));
+		GetSkill ((int)SkillName.Magic_Defence).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Focus), .12f));
+		GetSkill ((int)SkillName.Magic_Defence).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Focus), .12f));
+
+		GetSkill ((int)SkillName.Life_Magic).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Focus), .8f));
+		GetSkill ((int)SkillName.Life_Magic).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Focus), .8f));
+
+
+		GetSkill ((int)SkillName.Summon_Creature).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Focus), .8f));
+		GetSkill ((int)SkillName.Summon_Creature).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Focus), .8f));
+
+		//Cross_Bow
+		GetSkill ((int)SkillName.Cross_Bow).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Focus), .5f));
 		//Ranged Offence   
-		GetSkill ((int)SkillName.Ranged_Bow).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Quickness), .33f));
-		GetSkill ((int)SkillName.Ranged_Bow).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Focus), .33f));
+		GetSkill ((int)SkillName.Bow).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Quickness), .8f));
+
 		//Ranged Defence
-		GetSkill ((int)SkillName.Ranged_Defence).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Quickness), .33f));
-		GetSkill ((int)SkillName.Ranged_Defence).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Coordination), .33f));
+		GetSkill ((int)SkillName.Ranged_Defence).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Quickness), .8f));
+		GetSkill ((int)SkillName.Ranged_Defence).AddModifier (new ModifyingAttribute (GetPrimaryAttribute ((int)AttributeName.Coordination), .8f));
 	}
 	public void StatUpDate(){
 		for (int cnt = 0; cnt < _vital.Length; cnt++)

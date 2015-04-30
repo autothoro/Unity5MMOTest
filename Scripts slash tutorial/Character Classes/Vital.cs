@@ -4,14 +4,14 @@
 	public Vital()
 	{
 		_curValue = 0;
-		ExpToLevel = 50;
+		ExpToLevel = 110;
 		LevelModifier = 1.1f;
 	}
 
 	public int CurValue
 	{
 		get {
-			if(_curValue > AdjustedBaseValue)
+			if(_curValue < AdjustedBaseValue)
 				_curValue = AdjustedBaseValue;
 
 			return _curValue;
@@ -23,6 +23,6 @@
 
 public enum VitalName {
 	Health,
-	Stamina,   //stamina
+	Stamina,  
 	Mana
 }

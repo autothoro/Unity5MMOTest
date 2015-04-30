@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿//Baic player attack crap
+// need to update this methods
+using UnityEngine;
 using System.Collections;
 
 public class PlayerAttack : MonoBehaviour {
