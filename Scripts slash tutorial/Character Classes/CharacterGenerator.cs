@@ -10,7 +10,7 @@ using System;
 												//use for the enum class
 public class CharacterGenerator : MonoBehaviour {
 	public PlayerCharacter _toon;
-	private const int STARTING_POINTS = 290 ;
+	private const int STARTING_POINTS = 270 ;
 	private const int MIN_STARTING_ATTRIBUTE_VALUE = 10;
 	private int pointsLeft;
 
