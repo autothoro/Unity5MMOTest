@@ -21,8 +21,6 @@ public class TestSlideBar : MonoBehaviour {
 	private float[] sliderValue = new float[6];
 	private float sliderValueY;
 
-	private ProceduralMaterial substance;
-
 	private int statStartingPos = 40;
 	
 	public GUISkin mySkin; //Character creation design page
@@ -35,9 +33,7 @@ public class TestSlideBar : MonoBehaviour {
 	void Start () {
 		GameObject playerChar = Instantiate (playerPrefab,Vector3.zero, Quaternion.identity) as GameObject;
 		
-		
 		playerChar.name = "playerChar";
-		
 
 
 		_toon = playerChar.GetComponent<PlayerCharacter> ();
@@ -96,8 +92,8 @@ public class TestSlideBar : MonoBehaviour {
 				          _toon.GetPrimaryAttribute (cnt).AdjustedBaseValue.ToString ());
 
 		
-				///NEED TO CHANGE THIS TYPEOF AND THE GETVALUE
-
+				
+			//begins gui horizontal slider 
 			GUILayout.BeginArea(new Rect(STAT_LABEL_WIDTH + OFFSET * 5,													//x
 			                             statStartingPos + (cnt * LINE_HEIGHT),									//y
 			                             BASEVALUE_LABEL_WIDTH * 5,													//width
@@ -105,23 +101,19 @@ public class TestSlideBar : MonoBehaviour {
 
 			GUILayout.BeginHorizontal();
 
-		//	GUI.Box (new Rect (STAT_LABEL_WIDTH + OFFSET,												//x
-		//	                   statStartingPos + (cnt * LINE_HEIGHT),									//y
-		//	                   BASEVALUE_LABEL_WIDTH + 2,													//width
-		//	                   LINE_HEIGHT),"" + Mathf.Round(sliderValue[cnt]));
+			//GUILayout.Box  ("" + Mathf.Round(sliderValue[cnt] + MIN_STARTING_ATTRIBUTE_VALUE))
 
 			if(_toon.GetPrimaryAttribute(cnt).BaseValue - sliderValue[cnt] > MIN_STARTING_ATTRIBUTE_VALUE){ /// was for the - button. need to change for a slider value right and left.
 				_toon.GetPrimaryAttribute(cnt).BaseValue--;
 				pointsLeft++;
 				_toon.StatUpDate ();
 				}
-
+			
 			if(pointsLeft > 0){
 				_toon.GetPrimaryAttribute(cnt).BaseValue++;
 				pointsLeft--;
 				_toon.StatUpDate ();
-				}
-
+			}
 			GUILayout.BeginVertical();
 			sliderValue[cnt] =  GUILayout.HorizontalSlider (sliderValue[cnt], 0.0f, 90.0f);
 
@@ -130,28 +122,10 @@ public class TestSlideBar : MonoBehaviour {
 			GUILayout.EndHorizontal();
 			GUILayout.EndArea();
 
-	//		sliderValue [cnt] = sliderValue [cnt] + _toon.GetPrimaryAttribute (cnt).AdjustedBaseValue.ToString ();
-	//		Debug.Log("- :" +sliderValue[cnt]);
-
-		
-
-			
 				
 				//sliderValue = "Stuff" + Mathf.RoundToInt(sliderValue).ToString();
 
-		//		if(sliderValue[cnt] != sliderValue[cnt])
-		//		{
-		//		 substance.SetProceduralFloat(_toon.GetPrimaryAttribute (cnt).BaseValue, sliderValue[cnt]);
-		//		}
-		//	substance = sliderValue[cnt];
-
-		//	if(sliderValue[cnt] < pointsLeft)
-		//	{
-		//		_toon.GetPrimaryAttribute (cnt).BaseValue++();
-		//		pointsLeft -- ;
-		//		_toon.StatUpDate ();
-
-		//	}
+		
 	
 			//sliderValueY = Mathf.RoundToInt(sliderValueY);
 }
