@@ -12,6 +12,7 @@ public class CharacterGenerator : MonoBehaviour {
 	public PlayerCharacter _toon;
 	private const int STARTING_POINTS = 270 ;
 	private const int MIN_STARTING_ATTRIBUTE_VALUE = 10;
+	private const int MAX_ATTRIBUTE_VALUE = 100;
 	private int pointsLeft;
 
 	private const int OFFSET = 5;
@@ -98,20 +99,25 @@ public class CharacterGenerator : MonoBehaviour {
 			          _toon.GetPrimaryAttribute(cnt).AdjustedBaseValue.ToString ());
 
 
-			if(GUI.Button(new Rect(OFFSET + STAT_LABEL_WIDTH + BASEVALUE_LABEL_WIDTH, 					//x
+			if(GUI.RepeatButton(new Rect(OFFSET + STAT_LABEL_WIDTH + BASEVALUE_LABEL_WIDTH, 					//x
 			                       statStartingPos +(cnt * BUTTON_HEIGHT),								//y
 			                       BUTTON_WIDTH, 														//width
-			                       BUTTON_HEIGHT),														//height
+			                       BUTTON_HEIGHT),													//height
 			              "-")){ // mystyle)){ for making design image on creation screen//make a push down input to quickly remove points
 
-				if(_toon.GetPrimaryAttribute(cnt).BaseValue > MIN_STARTING_ATTRIBUTE_VALUE){
+				if(_toon.GetPrimaryAttribute(cnt).BaseValue > MIN_STARTING_ATTRIBUTE_VALUE ){
 					_toon.GetPrimaryAttribute(cnt).BaseValue--;
 					pointsLeft++;
 					_toon.StatUpDate ();
+
 				}
+
+
+
 			}
-		
-				if(GUI.Button(new Rect(OFFSET + STAT_LABEL_WIDTH + BASEVALUE_LABEL_WIDTH + BUTTON_WIDTH,	//x
+
+
+				if(GUI.RepeatButton(new Rect(OFFSET + STAT_LABEL_WIDTH + BASEVALUE_LABEL_WIDTH + BUTTON_WIDTH,	//x
 			                       statStartingPos + (cnt * BUTTON_HEIGHT),								//y
 			                       BUTTON_WIDTH,														//width
 			                       BUTTON_HEIGHT),														//height	
@@ -121,6 +127,7 @@ public class CharacterGenerator : MonoBehaviour {
 					_toon.GetPrimaryAttribute(cnt).BaseValue++;
 					pointsLeft--;
 					_toon.StatUpDate ();
+
 				}
 
 			}
@@ -193,7 +200,7 @@ public class CharacterGenerator : MonoBehaviour {
 			//save character data
 			SettingGameScript.SaveData();
 
-			Application.LoadLevel("Level1"); //Main Server World // for loadlevel ("slashing"); can also do File/building Settings to find number code
+			Application.LoadLevel("MainWorld"); //Main Server World // for loadlevel ("slashing"); can also do File/building Settings to find number code
 					}
 			}
 

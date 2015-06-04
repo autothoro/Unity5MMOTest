@@ -84,14 +84,14 @@ public class TestSlideBar : MonoBehaviour {
 				           ((AttributeName)cnt).ToString ());// add in creation design
 				
 				
-			GUI.Label (new Rect (STAT_LABEL_WIDTH + OFFSET,													//x
-				                   statStartingPos + (cnt * LINE_HEIGHT),									//y
-				                   BASEVALUE_LABEL_WIDTH,													//width
-				                   LINE_HEIGHT),															//height
+			//GUI.Label (new Rect (STAT_LABEL_WIDTH + OFFSET,													//x
+			//	                   statStartingPos + (cnt * LINE_HEIGHT),									//y
+			//	                   BASEVALUE_LABEL_WIDTH,													//width
+			//	                   LINE_HEIGHT),															//height
 				          
-				          _toon.GetPrimaryAttribute (cnt).AdjustedBaseValue.ToString ());
+			//	          _toon.GetPrimaryAttribute (cnt).AdjustedBaseValue.ToString ());
 
-		
+
 				
 			//begins gui horizontal slider 
 			GUILayout.BeginArea(new Rect(STAT_LABEL_WIDTH + OFFSET * 5,													//x
@@ -100,20 +100,22 @@ public class TestSlideBar : MonoBehaviour {
 			                             LINE_HEIGHT));
 
 			GUILayout.BeginHorizontal();
+			 
 
-			//GUILayout.Box  ("" + Mathf.Round(sliderValue[cnt] + MIN_STARTING_ATTRIBUTE_VALUE))
+			GUILayout.Box  ("" + Mathf.Round(sliderValue[cnt] + MIN_STARTING_ATTRIBUTE_VALUE));
 
 			if(_toon.GetPrimaryAttribute(cnt).BaseValue - sliderValue[cnt] > MIN_STARTING_ATTRIBUTE_VALUE){ /// was for the - button. need to change for a slider value right and left.
 				_toon.GetPrimaryAttribute(cnt).BaseValue--;
 				pointsLeft++;
 				_toon.StatUpDate ();
-				}
+			}
 			
 			if(pointsLeft > 0){
 				_toon.GetPrimaryAttribute(cnt).BaseValue++;
 				pointsLeft--;
 				_toon.StatUpDate ();
 			}
+			
 			GUILayout.BeginVertical();
 			sliderValue[cnt] =  GUILayout.HorizontalSlider (sliderValue[cnt], 0.0f, 90.0f);
 

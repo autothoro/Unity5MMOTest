@@ -1,14 +1,31 @@
-﻿public class Skill : ModifiedStat {
+﻿/// <summary>
+/// Skill.cs
+/// 2015
+/// Whetsel
+/// 
+/// This class contains all the extra functions that are needed for a skill.
+/// 
+/// </summary>
 
-	private bool _known;
 
+public class Skill : ModifiedStat {
+
+	private bool _known;					// boolean variable to toggle if a character knows a skill.
+
+	/// <summary>
+	/// Initializes a new instance of the <see cref="Skill"/> class.
+	/// </summary>
 	public Skill()
 	{
+		UnityEngine.Debug.Log ("Skill created");
 		_known = false;
 		ExpToLevel = 110;
 		LevelModifier = 1.1f;
 	}
-
+	/// <summary>
+	/// Gets or sets a value indicating whether this <see cref="Skill"/> is known.
+	/// </summary>
+	/// <value><c>true</c> if known; otherwise, <c>false</c>.</value>
 	public bool Known
 	{
 		get{ return _known;}
@@ -17,8 +34,9 @@
 
 }
 
-	//smithing,healing,alchemy,jump,run, arrow making(fletching)
-	//summon creature,destruction magic, protection magic/healing magic/skills buff(creature magic)
+	/// <summary>
+	/// this is just a list of skills that a character can learn. 
+	/// </summary>
 
 public enum SkillName
 {

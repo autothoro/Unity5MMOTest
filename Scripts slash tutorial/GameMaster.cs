@@ -25,7 +25,7 @@ public class GameMaster : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		_characterSpawnPointPos = new Vector3 (45, .5f, 5);		// character spawn default x,y,z. need to add more spwan points for towns.
+		_characterSpawnPointPos = new Vector3 (284f, 17f, 345f);		// character spawn default x,y,z. need to add more spwan points for towns.
 
 		GameObject go = GameObject.Find (Settings.CHARACTER_SPAWN_POINT);			// if no character is in spawn point. will create character at the points
 
