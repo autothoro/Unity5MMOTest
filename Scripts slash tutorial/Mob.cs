@@ -22,6 +22,6 @@ public class Mob : BaseCharacter {
 	}
 
 	public void DisplayHealth(){
-		Messenger<int, int>.Invoke("Creature Health Update", curHealth, maxHealth);
+		Messenger<float, float>.Invoke("Creature Health Update", curHealth, maxHealth);
 	}
 }

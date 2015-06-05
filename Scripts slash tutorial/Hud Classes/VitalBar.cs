@@ -11,11 +11,12 @@ using UnityEngine.UI;
 
 public class VitalBar : MonoBehaviour {
 
-	public GameObject Bar;
+	public Image Bar;
 	public bool _isCharacterHealthBar;
 
 	private float _maxBarLength; //how long will the  vital bar be at health percentage.
 	private float _curBarLength; // how long the vital bar current health.
+
 
 	//private Image _display;
 
@@ -23,9 +24,9 @@ public class VitalBar : MonoBehaviour {
 	void Start () {
 		_isCharacterHealthBar = true;
 
-		_maxBarLength = (int) Bar.transform.localScale.x;
+		//_maxBarLength = 1f;
+		//_maxBarLength = (int) Bar.transform.localScale.x;
 		OnEnable ();
-		Invoke (onChangeHalthBarSize, _curBarLength, _maxBarLength); 
 
 	}
 	
@@ -54,21 +55,30 @@ public class VitalBar : MonoBehaviour {
 	// will calculate the total size of healthbar in the percentage of health left.
 	public void onChangeHalthBarSize(int curHealth, int maxHealth){
 	//	Debug.Log ("Something Happens: curHealth = " + curHealth + " - maxHealth = " + maxHealth);
-		_curBarLength = (int)((curHealth /(float) maxHealth) * _maxBarLength);	//calculates the current length of the health bar percentage. curhealth value 0-1, 80/ 100 - 0.8f
+		_curBarLength =  MapValues(curHealth, 0, maxHealth, 0f, 1f);	//calculates the current length of the health bar percentage. curhealth value 0-1, 80/ 100 - 0.8f
 		//Bar.transform.localScale = new Vector3 ( curHealth, Bar.transform.localScale.y, Bar.transform.localScale.z); 
-		Bar.transform.localScale = CalculatePosition ();
+		Image Bar = GetComponent<Image> ();
+
+		Bar.fillAmount = Mathf.Lerp (Bar.fillAmount, _curBarLength, Time.deltaTime);
+			//Mathf.Lerp (Bar.fillAmount, _curBarLength, Time.deltaTime);
+			//CalculatePosition ();
+
 	}
 
+	private float MapValues(float x, float inMin, float inMax, float outMin, float outMax){
+		return (x - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
+	}
 	// changing health bar to player or creature
 	public void SetCharacterHealth(bool b) {
 		_isCharacterHealthBar = b;
 	}
 	//calculate the max health and current health.
-	private Vector3 CalculatePosition()
-	{
-		if (!_isCharacterHealthBar) {
-			return new Vector3 ( _curBarLength, Bar.transform.localScale.y, Bar.transform.localScale.z);
-		}
-		return new Vector3 ( _curBarLength, Bar.transform.localScale.y, Bar.transform.localScale.z);
-	}
+//	private Vector3 CalculatePosition()
+//	{
+
+	//	if (!_isCharacterHealthBar) {
+		//	return Mathf.Lerp (Bar.fillAmount, _curBarLength, Time.deltaTime);
+		//}//
+		//return  Mathf.Lerp (Bar.fillAmount, _curBarLength, Time.deltaTime);
+	//}
 }

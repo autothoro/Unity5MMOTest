@@ -88,6 +88,7 @@ public class TargetCreature : MonoBehaviour {
 		selectedTarget.FindChild ("Name").GetComponent<MeshRenderer> ().enabled = false;
 
 		selectedTarget = null;
+		Messenger<bool>.Invoke("Show mob Vital Bars", false);
 	}
 	
 	//	Update is called once per frame
